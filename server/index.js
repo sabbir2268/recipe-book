@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Server is running ");
+  res.send("Recipe Book Server is running ");
 });
 
 app.listen(port, () => {
