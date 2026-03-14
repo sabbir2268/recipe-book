@@ -1,6 +1,9 @@
 import { createBrowserRouter } from "react-router";
 import Home from "../pages/Home";
 import MainLayout from "../layouts/MainLayout";
+import { AddRecipes } from "../pages/AddRecipes";
+import { AllRecipes } from "../pages/AllRecipes";
+import { MyRecipes } from "../pages/MyRecipes";
 
 export const router = createBrowserRouter([
   {
@@ -11,6 +14,22 @@ export const router = createBrowserRouter([
         index: true,
         element: <Home></Home>,
       },
+      {
+        path: "/allRecipes",
+        element: <AllRecipes></AllRecipes>,
+      },
+      {
+        path: "/myRecipes",
+        element: <MyRecipes></MyRecipes>,
+      },
+      {
+        path: "/addRecipes",
+        element: <AddRecipes></AddRecipes>,
+      },
     ],
   },
+  {
+    path:"/auth/login",
+    element:<Home></Home>
+  }
 ]);
