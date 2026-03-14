@@ -14,8 +14,7 @@ const Navbar = () => {
     { path: "/addRecipes", title: "Add Recipes" },
   ];
 
-  const btnBase =
-    "px-3 py-1 rounded-md text-sm transition-colors hover:bg-[var(--primary)] hover:text-[var(--accent)]";
+  const btnBase = "px-3 py-1 rounded-md text-sm transition-colors hover:bg-[var(--primary)] hover:text-[var(--accent)]";
 
   const handleLogin = () => setUser({ name: "Rahman" });
   const handleLogout = () => setUser(null);

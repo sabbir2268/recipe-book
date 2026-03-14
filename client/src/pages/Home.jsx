@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { Share2, Globe, Heart } from "lucide-react";
 import recipeData from "../../src/data/recipeData.json"
 import RecipeCard from "../components/RecipeCard";
+import MotionWrapper from "../components/MotionWrapper";
 
 const Home = () => {
   const benifits = [
@@ -41,82 +42,72 @@ const Home = () => {
       <Banner></Banner>
       
       {/* top liked recipes */}
-      <section className="max-w-7xl mx-auto px-4 py-20">
-        <h1 className="text-3xl font-bold text-center">Top Liked Recipes</h1>
+      <section className="max-w-7xl mx-auto px-10 pt-10">
+        <MotionWrapper>
+          <h1 className="text-3xl font-bold text-center">Top Liked Recipes</h1>
         <p className="text-center text-gray-500 mt-2">
           Discover the most popular recipes loved by our community
         </p>
-
-        <div className="grid md:grid-cols-3 gap-8 mt-12">
+        </MotionWrapper>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
           {recipeData.slice(0, 6).map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
+            <MotionWrapper>
+              <RecipeCard key={recipe.id} recipe={recipe} />
+            </MotionWrapper>
           ))}
         </div>
+        
       </section>
       
       {/* why choose our recipe */}
-      <section className="py-24 bg-background">
+      <section className="py-10 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
+          {/* Title Animation */}
+          <MotionWrapper className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Why Choose Our Recipe Book?
+            </h2>
 
-            {/* Title */}
-            <div className="text-center max-w-2xl mx-auto mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Why Choose Our Recipe Book?
-              </h2>
+            <p className="text-lg text-muted-foreground">
+              Everything you need to become a better home chef and discover amazing recipes from around the world.
+            </p>
+          </MotionWrapper>
 
-              <p className="text-lg text-muted-foreground">
-                Everything you need to become a better home chef and discover amazing recipes from around the world.
-              </p>
-            </div>
+          {/* Feature Cards */}
+          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature) => {
+              const Icon = feature.icon;
 
-            {/* Feature Cards */}
-            <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              return (
+                <MotionWrapper
+                  key={feature.title}
+                  className="group bg-card border border-border rounded-2xl p-8 text-center shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col items-center"
+                >
+                  {/* Icon */}
+                  <div className="w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-br from-[var(--primary)] to-orange-300 mb-6 shadow-md">
+                    <Icon className="w-8 h-8 text-white" />
+                  </div>
 
-              {features.map((feature, index) => {
-                const Icon = feature.icon;
+                  {/* Title */}
+                  <h3 className="text-xl font-semibold text-foreground mb-3">
+                    {feature.title}
+                  </h3>
 
-                return (
-                  <motion.div
-                    key={index}
-                    whileHover={{ y: -8 }}
-                    transition={{ duration: 0.3 }}
-                    className="group bg-card border border-border rounded-2xl p-8 text-center shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center"
-                  >
-                    
-                    {/* Icon */}
-                    <div className="w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-br from-primary to-orange-400 mb-6 shadow-md group-hover:scale-110 transition">
-                      <Icon className="w-8 h-8 text-white" />
-                    </div>
+                  {/* Description */}
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {feature.description}
+                  </p>
+                </MotionWrapper>
+              );
+            })}
+          </div>
 
-                    {/* Title */}
-                    <h3 className="text-xl font-semibold text-foreground mb-3">
-                      {feature.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {feature.description}
-                    </p>
-
-                  </motion.div>
-                );
-              })}
-
-            </div>
-
-          </motion.div>
         </div>
       </section>
 
       {/* join our community */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

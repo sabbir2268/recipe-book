@@ -45,7 +45,7 @@ export const AddRecipes = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-10">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-10 pt-10">
       <div className="max-w-4xl w-full bg-white shadow-lg rounded-2xl border p-8">
 
         {/* Header */}

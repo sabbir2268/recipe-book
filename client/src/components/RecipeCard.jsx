@@ -1,15 +1,17 @@
 import { Heart, Clock } from "lucide-react";
+import MotionWrapper from "./MotionWrapper";
 
 const RecipeCard = ({ recipe }) => {
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border hover:-translate-y-2">
-
+      
       {/* Image */}
       <div className="relative h-48 overflow-hidden">
         <img
           src={recipe.image}
           alt={recipe.title}
-          className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+          loading="lazy"
+          className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
         />
 
         {/* Cuisine Badge */}
@@ -46,6 +48,7 @@ const RecipeCard = ({ recipe }) => {
         </button>
 
       </div>
+
     </div>
   );
 };
