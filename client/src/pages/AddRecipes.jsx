@@ -45,12 +45,12 @@ export const AddRecipes = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-10 pt-10">
-      <div className="max-w-4xl w-full bg-white shadow-lg rounded-2xl border p-8">
+    <div className="min-h-screen bg-[var(--background)] flex items-center justify-center px-10 pt-10">
+      <div className="max-w-4xl w-full bg-[var(--background)] shadow-lg rounded-2xl border p-8">
 
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-[var(--primary)] rounded-2xl flex items-center justify-center mx-auto mb-4">
             <ChefHat className="w-8 h-8 text-white" />
           </div>
 
@@ -214,7 +214,7 @@ export const AddRecipes = () => {
               type="number"
               value="0"
               disabled
-              className="w-full border rounded-lg h-11 px-3 bg-gray-100 cursor-not-allowed"
+              className="w-full border rounded-lg h-11 px-3 bg-[var(--background)] cursor-not-allowed"
             />
 
             <p className="text-xs text-gray-500 mt-1">
@@ -225,7 +225,7 @@ export const AddRecipes = () => {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full h-12 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition"
+            className="w-full h-12 bg-[var(--primary)] text-white rounded-lg font-semibold hover:bg-orange-600 transition"
           >
             Add Recipe
           </button>

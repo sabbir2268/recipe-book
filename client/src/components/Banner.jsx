@@ -36,7 +36,6 @@ const Banner = () => {
       {banners.map((banner, index) => {
         const prev = index === 0 ? banners.length - 1 : index - 1;
         const next = index === banners.length - 1 ? 0 : index + 1;
-
         return (
           <div
             key={index}
@@ -63,12 +62,12 @@ const Banner = () => {
                   </h1>
 
                   {/* Description */}
-                  <p className="text-sm sm:text-base md:text-lg mb-2 md:mb-3">
+                  <p className="text-lg sm:text-base md:text-2xl mb-2 md:mb-3">
                     {banner.desc}
                   </p>
 
                   {/* Quote */}
-                  <p className="inline-block italic text-[var(--primary)] text-sm sm:text-base mb-4 md:mb-6 bg-[var(--accent)] px-2 py-1 rounded">
+                  <p className="inline-block italic text-[var(--primary)] text-xl sm:text-base mb-4 md:mb-6 bg-[var(--accent)] px-2 py-1 rounded">
                     "{banner.quote}"
                   </p>
                   <br />

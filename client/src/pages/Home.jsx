@@ -39,13 +39,15 @@ const Home = () => {
 
   return (
     <>
-      <Banner></Banner>
+      <MotionWrapper>
+        <Banner></Banner>
+      </MotionWrapper>
       
       {/* top liked recipes */}
       <section className="max-w-7xl mx-auto px-10 pt-10">
         <MotionWrapper>
           <h1 className="text-3xl font-bold text-center">Top Liked Recipes</h1>
-        <p className="text-center text-gray-500 mt-2">
+        <p className="text-center text-gray-500 mt-2 text-xl md:text-2xl">
           Discover the most popular recipes loved by our community
         </p>
         </MotionWrapper>
@@ -69,7 +71,7 @@ const Home = () => {
               Why Choose Our Recipe Book?
             </h2>
 
-            <p className="text-lg text-muted-foreground">
+            <p className="text-xl text-muted-foreground">
               Everything you need to become a better home chef and discover amazing recipes from around the world.
             </p>
           </MotionWrapper>
@@ -90,12 +92,12 @@ const Home = () => {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-semibold text-foreground mb-3">
+                  <h3 className="text-2xl font-semibold text-foreground mb-3">
                     {feature.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+                  <p className="text-muted-foreground text-xl leading-relaxed">
                     {feature.description}
                   </p>
                 </MotionWrapper>
@@ -132,7 +134,7 @@ const Home = () => {
               Join Our Food Community
             </h2>
 
-            <p className="text-lg text-muted-foreground mb-6">
+            <p className="text-xl text-muted-foreground mb-6">
               Connect with thousands of passionate home cooks, share your culinary
               creations, and discover new flavors every day. Our community is
               growing and we'd love to have you!
@@ -143,10 +145,10 @@ const Home = () => {
               benifits.map((benifit) => {
                 return (
                   <li key={benifit.id} className="flex items-center gap-3 text-foreground">
-                    <div className="w-6 h-6 bg-[var(--primary)] rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-primary-foreground text-sm">✓</span>
+                    <div className="w-6 h-6 bg-[var(--primary)] rounded-full flex items-center justify-center flex-shrink-0 ">
+                      <span className="text-primary-foreground text-lg">✓</span>
                     </div>
-                    <span>{benifit.text}</span>
+                    <span className="text-xl">{benifit.text}</span>
                   </li>
                 );
               })

@@ -1,10 +1,9 @@
 import { Heart, Clock } from "lucide-react";
-import MotionWrapper from "./MotionWrapper";
 
 const RecipeCard = ({ recipe }) => {
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border hover:-translate-y-2">
-      
+    <div className="bg-[var(--card)] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-[var(--border)] hover:-translate-y-2">
+
       {/* Image */}
       <div className="relative h-48 overflow-hidden">
         <img
@@ -15,7 +14,7 @@ const RecipeCard = ({ recipe }) => {
         />
 
         {/* Cuisine Badge */}
-        <span className="absolute top-3 right-3 bg-white/90 px-3 py-1 text-sm rounded-full shadow">
+        <span className="absolute top-3 right-3 bg-[var(--secondary)] text-[var(--foreground)] px-3 py-1 text-xl rounded-full shadow">
           {recipe.cuisineType}
         </span>
       </div>
@@ -23,12 +22,12 @@ const RecipeCard = ({ recipe }) => {
       {/* Content */}
       <div className="p-5 space-y-3">
 
-        <h3 className="font-semibold text-lg line-clamp-2">
+        <h3 className="font-semibold text-2xl text-[var(--foreground)] line-clamp-2">
           {recipe.title}
         </h3>
 
         {/* Time + Likes */}
-        <div className="flex items-center gap-5 text-sm text-gray-500">
+        <div className="flex items-center gap-5 text-xl text-[var(--foreground)]/70">
 
           <div className="flex items-center gap-1">
             <Clock size={16} />
@@ -43,7 +42,7 @@ const RecipeCard = ({ recipe }) => {
         </div>
 
         {/* Button */}
-        <button className="w-full mt-3 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition">
+        <button className="w-full mt-3 py-2 bg-[var(--primary)] text-black rounded-lg hover:opacity-90 transition">
           View Details
         </button>
 

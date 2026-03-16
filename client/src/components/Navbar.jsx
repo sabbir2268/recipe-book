@@ -10,8 +10,8 @@ const Navbar = () => {
   const links = [
     { path: "/", title: "Home" },
     { path: "/allRecipes", title: "All Recipes" },
-    { path: "/myRecipes", title: "My Recipes" },
     { path: "/addRecipes", title: "Add Recipes" },
+    { path: "/myRecipes", title: "My Recipes" },
   ];
 
   const btnBase = "px-3 py-1 rounded-md text-sm transition-colors hover:bg-[var(--primary)] hover:text-[var(--accent)]";
@@ -54,7 +54,7 @@ const Navbar = () => {
                     `block px-2 py-1 rounded-md ${
                       isActive
                         ? "bg-[var(--primary)] text-[var(--accent)]"
-                        : "hover:bg-[var(--primary)] hover:text-[var(--accent)]"
+                        : "hover:bg-[var(--primary)]/90 hover:text-[var(--accent)]"
                     }`
                   }
                 >

@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "title": "Shrimp Tacos",
+    "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80",
+    "ingredients": "Shrimp, tortillas, cabbage, lime, sour cream, cilantro, avocado",
+    "instructions": "Cook shrimp with spices. Warm tortillas. Assemble tacos with cabbage, shrimp, avocado, and sauce. Squeeze lime on top.",
+    "cuisineType": "Mexican",
+    "preparationTime": 25,
+    "categories": ["Lunch", "Dinner"],
+    "likeCount": 22,
+    "userId": 1
+  },
+  {
+    "id": 2,
+    "title": "Margherita Pizza",
+    "image": "https://images.unsplash.com/photo-1601924582975-3e4c88a6a058?auto=format&fit=crop&w=800&q=80",
+    "ingredients": "Pizza dough, tomato sauce, mozzarella, basil, olive oil, salt",
+    "instructions": "Roll dough. Spread tomato sauce. Add mozzarella and basil. Bake until crust is golden and cheese melts.",
+    "cuisineType": "Italian",
+    "preparationTime": 40,
+    "categories": ["Lunch", "Dinner"],
+    "likeCount": 33,
+    "userId": 2
+  },
+  {
+    "id": 3,
+    "title": "Miso Soup",
+    "image": "https://images.unsplash.com/photo-1605733165572-78f1ed01c14d?auto=format&fit=crop&w=800&q=80",
+    "ingredients": "Miso paste, tofu, seaweed, green onions, dashi broth",
+    "instructions": "Heat broth. Dissolve miso paste. Add tofu and seaweed. Garnish with green onions and serve hot.",
+    "cuisineType": "Japanese",
+    "preparationTime": 10,
+    "categories": ["Lunch", "Dinner", "Vegan"],
+    "likeCount": 15,
+    "userId": 3
+  },
+  {
+    "id": 4,
+    "title": "Banana Bread",
+    "image": "https://images.unsplash.com/photo-1599785209707-22d289b3e208?auto=format&fit=crop&w=800&q=80",
+    "ingredients": "Bananas, flour, sugar, eggs, butter, baking soda, vanilla",
+    "instructions": "Mash bananas. Mix with wet ingredients. Add dry ingredients. Bake in loaf pan until golden brown.",
+    "cuisineType": "American",
+    "preparationTime": 60,
+    "categories": ["Breakfast", "Dessert"],
+    "likeCount": 27,
+    "userId": 4
+  }
+]
