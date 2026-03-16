@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { ChefHat, Menu, Sun, Moon, UserPlus } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -15,9 +15,6 @@ const Navbar = () => {
   ];
 
   const btnBase = "px-3 py-1 rounded-md text-sm transition-colors hover:bg-[var(--primary)] hover:text-[var(--accent)]";
-
-  const handleLogin = () => setUser({ name: "Rahman" });
-  const handleLogout = () => setUser(null);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -114,16 +111,16 @@ const Navbar = () => {
             <>
               {/* Desktop Auth */}
               <div className="gap-2 hidden md:flex">
-                <button
-                  onClick={handleLogin}
+                <Link
+                  to={"/auth/login"}
                   className={`${btnBase} border border-[var(--foreground)]`}
                 >
                   Login
-                </button>
+                </Link>
 
-                <button className={`${btnBase} bg-[var(--primary)] text-black`}>
+                <Link to={"/auth/register"} className={`${btnBase} bg-[var(--primary)] text-black`}>
                   Register
-                </button>
+                </Link>
               </div>
 
               {/* Mobile Auth */}
@@ -137,18 +134,15 @@ const Navbar = () => {
                 </div>
 
                 <ul className="dropdown-content menu bg-[var(--accent)] rounded-box w-32 p-2 shadow gap-2">
-                  <button
-                    onClick={handleLogin}
-                    className={`${btnBase} border border-[var(--foreground)]`}
-                  >
+                  <Link
+                    to={"/auth/login"}
+                    className={`${btnBase} border border-[var(--foreground)]`}>
                     Login
-                  </button>
+                  </Link>
 
-                  <button
-                    className={`${btnBase} border border-[var(--foreground)]`}
-                  >
+                  <Link to={"/auth/register"} className={`${btnBase} bg-[var(--primary)] text-black`}>
                     Register
-                  </button>
+                  </Link>
                 </ul>
               </div>
             </>
@@ -164,7 +158,7 @@ const Navbar = () => {
               <ul className="dropdown-content menu bg-[var(--accent)] rounded-box z-50 mt-3 w-40 p-2 shadow">
                 <li>
                   <button
-                    onClick={handleLogout}
+                    
                     className={`${btnBase} bg-[var(--primary)] text-black w-full`}
                   >
                     Logout

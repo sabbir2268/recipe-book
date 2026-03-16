@@ -10,19 +10,22 @@ export const Login = () => {
 
 
   return (
-    <div className="min-h-screen bg-[var(--background)] flex flex-col items-center justify-center px-4 py-12 relative">
-                  {/* Back Home Button */}
-      <Link
-        to="/"
-        className="absolute top-6 left-6 flex items-center gap-2 text-sm sm:text-base font-semibold text-[var(--primary)] hover:underline btn"
-      >
-        <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-        Home
-      </Link>
-
+    <div className="min-h-screen bg-[var(--background)] flex flex-col items-center justify-center px-4 py-10 relative">
       <MotionWrapper className="w-full max-w-md">
-        <div className="bg-card rounded-2xl shadow-xl border border-border p-8">
+        <div className="bg-card rounded-2xl shadow-xl border border-border p-5">
+                          {/* Top Buttons */}
+          <div className=" flex justify-between items-center z-50">
+            {/* Back Home */}
+            <Link
+              to="/"
+              className="flex items-center gap-2 text-sm sm:text-base font-semibold text-[var(--primary)] hover:underline"
+            >
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+              Home
+            </Link>
 
+          </div>
+          
           {/* Header */}
           <div className="text-center mb-8">
             <div className="w-16 h-16 bg-[var(--primary)] rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -35,7 +38,7 @@ export const Login = () => {
           </div>
 
           {/* Form */}
-          <form className="space-y-5">
+          <form className="space-y-2">
             <div className="space-y-2">
               <label className="flex items-center gap-2 text-lg text-foreground">
                 <Mail className="w-4 h-4" /> Email
@@ -79,7 +82,7 @@ export const Login = () => {
           </form>
 
           {/* Divider */}
-          <div className="relative my-6">
+          <div className="relative my-3">
             <div className="relative flex justify-center text-lg">
               <span className="px-4 bg-card text-muted-foreground">
                 Or continue with
@@ -90,7 +93,7 @@ export const Login = () => {
           {/* Google Login */}
           <button className="w-full h-11 flex items-center justify-center gap-2 border border-border rounded-lg hover:bg-[var(--accent)] transition-colors font-semibold text-lg">
             <Chrome className="w-5 h-5" />
-            <span>Google</span>
+            <span>Login with Google</span>
           </button>
 
           {/* Register Link */}
