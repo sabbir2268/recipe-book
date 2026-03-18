@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { ChefHat, Menu, Sun, Moon, UserPlus } from "lucide-react";
 import { motion } from "framer-motion";
+import { AuthContext } from "../context/AuthContext";
+import Loading from "../components/Loading"
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase";
+
 
 const Navbar = () => {
-  const [user, setUser] = useState(null);
+  const {user, loading} = useContext(AuthContext);
   const [theme, setTheme] = useState("light");
 
   const links = [
-    { path: "/", title: "Home" },
-    { path: "/allRecipes", title: "All Recipes" },
-    { path: "/addRecipes", title: "Add Recipes" },
-    { path: "/myRecipes", title: "My Recipes" },
+    { path: "/", title: "Home", authRequired: false },
+    { path: "/allRecipes", title: "All Recipes", authRequired: false },
+    { path: "/addRecipes", title: "Add Recipes", authRequired: true },
+    { path: "/myRecipes", title: "My Recipes", authRequired: true },
   ];
 
   const btnBase = "px-3 py-1 rounded-md text-sm transition-colors hover:bg-[var(--primary)] hover:text-[var(--accent)]";
@@ -21,6 +26,22 @@ const Navbar = () => {
     setTheme(newTheme);
     document.documentElement.classList.toggle("dark", newTheme === "dark");
   };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      // optionally, you can show a toast here
+      console.log("Logged out successfully");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <Loading></Loading>
+    )
+  }
 
   return (
     <motion.div
@@ -43,21 +64,23 @@ const Navbar = () => {
             </div>
 
             <ul className="dropdown-content menu bg-[var(--accent)] rounded-box w-40 shadow-md mt-2 gap-1 p-2 text-[var(--foreground)]">
-              {links.map((link) => (
-                <NavLink
-                  key={link.title}
-                  to={link.path}
-                  className={({ isActive }) =>
-                    `block px-2 py-1 rounded-md ${
-                      isActive
-                        ? "bg-[var(--primary)] text-[var(--accent)]"
-                        : "hover:bg-[var(--primary)]/90 hover:text-[var(--accent)]"
-                    }`
-                  }
-                >
-                  {link.title}
-                </NavLink>
-              ))}
+              {links
+                .filter(link => !link.authRequired || user)
+                .map(link => (
+                  <NavLink
+                    key={link.title}
+                    to={link.path}
+                    className={({ isActive }) =>
+                      `block px-2 py-1 rounded-md ${
+                        isActive
+                          ? "bg-[var(--primary)] text-[var(--accent)]"
+                          : "hover:bg-[var(--primary)]/90 hover:text-[var(--accent)]"
+                      }`
+                    }
+                  >
+                    {link.title}
+                  </NavLink>
+                ))}
             </ul>
           </div>
 
@@ -78,20 +101,22 @@ const Navbar = () => {
 
         {/* CENTER */}
         <div className="hidden md:flex gap-2">
-          {links.map((link) => (
-            <NavLink
-              key={link.title}
-              to={link.path}
-              className={({ isActive }) =>
-                `px-3 py-1 rounded-md transition-colors text-[var(--foreground)] ${
-                  isActive
-                    ? "bg-[var(--primary)] text-[var(--accent)]"
-                    : "hover:bg-[var(--primary)] hover:text-[var(--accent)]"
-                }`
-              }
-            >
-              {link.title}
-            </NavLink>
+          {links
+            .filter(link => !link.authRequired || user) // only show if no auth needed OR user is logged in
+            .map(link => (
+              <NavLink
+                key={link.title}
+                to={link.path}
+                className={({ isActive }) =>
+                  `px-3 py-1 rounded-md transition-colors text-[var(--foreground)] ${
+                    isActive
+                      ? "bg-[var(--primary)] text-[var(--accent)]"
+                      : "hover:bg-[var(--primary)] hover:text-[var(--accent)]"
+                  }`
+                }
+              >
+                {link.title}
+              </NavLink>
           ))}
         </div>
 
@@ -151,14 +176,26 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="avatar cursor-pointer">
                 <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
-                  <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+                    <img
+                      src={user.photoURL || "https://img.daisyui.com/images/profile/demo/spiderperson@192.webp"}
+                      alt={user.displayName || "User Avatar"}
+                      className="w-full h-full object-cover"
+                    />
                 </div>
               </div>
 
-              <ul className="dropdown-content menu bg-[var(--accent)] rounded-box z-50 mt-3 w-40 p-2 shadow">
+              <ul className="dropdown-content menu bg-[var(--accent)] rounded-box z-50 mt-3 w-40 p-2 shadow gap-3">
+                <li>
+                  <Link
+                    to={"/profile"}
+                    className={`${btnBase} bg-[var(--primary)] text-black w-full`}
+                  >
+                    Profile
+                  </Link>
+                </li>
                 <li>
                   <button
-                    
+                    onClick={handleLogout}
                     className={`${btnBase} bg-[var(--primary)] text-black w-full`}
                   >
                     Logout

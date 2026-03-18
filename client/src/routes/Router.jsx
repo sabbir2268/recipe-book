@@ -9,7 +9,9 @@ import { Register } from "../pages/Register";
 import AuthLayout from "../layouts/AuthLayout";
 import { Error } from "../pages/Error";
 import RecipeDetailsPage from "../pages/RecipeDetailsPage";
-import RecipeDetails from "../components/RecipeDetails";
+import PrivateRoute from "./PrivateRoute";
+import Profile from "../pages/Profile";
+
 
 export const router = createBrowserRouter([
   {
@@ -27,16 +29,29 @@ export const router = createBrowserRouter([
       },
       {
         path: "/myRecipes",
-        element: <MyRecipes></MyRecipes>,
+        element: 
+        <PrivateRoute>
+          <MyRecipes></MyRecipes>
+        </PrivateRoute>,
       },
       {
         path: "/addRecipes",
-        element: <AddRecipes></AddRecipes>,
+        element: 
+        <PrivateRoute>
+          <AddRecipes></AddRecipes>
+        </PrivateRoute>,
       },
       {
         path: "/recipe/:id",
         element: <RecipeDetailsPage></RecipeDetailsPage>,
       },
+      {
+        path: "/profile",
+        element: 
+        <PrivateRoute>
+          <Profile></Profile>
+        </PrivateRoute>,
+      }
     ],
   },
   {

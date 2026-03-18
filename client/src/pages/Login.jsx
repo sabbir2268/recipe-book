@@ -29,10 +29,17 @@ export const Login = () => {
       const user = userCredential.user;
       alert(`${user.email} logged in successfully`);
       navigate("/");
-    } catch (error) {
-      console.log(error.code, error.message);
-      alert(error.message);
-    }
+    } 
+    catch (error) {
+        if (error.code === "auth/user-not-found") {
+          alert("User not found");
+        } else if (error.code === "auth/wrong-password") {
+          alert("Incorrect password");
+        } else {
+          alert("Login failed. Try again.");
+        }
+      }
+    
   };
 
   return (
