@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 import { Share2, Globe, Heart } from "lucide-react";
-import recipeData from "../../src/data/recipeData.json"
+import recipeData from "../../src/data/recipeData.json";
 import RecipeCard from "../components/RecipeCard";
 import MotionWrapper from "../components/MotionWrapper";
 
@@ -42,14 +42,14 @@ const Home = () => {
       <MotionWrapper>
         <Banner></Banner>
       </MotionWrapper>
-      
+
       {/* top liked recipes */}
       <section className="max-w-7xl mx-auto px-10 pt-10">
         <MotionWrapper>
           <h1 className="text-3xl font-bold text-center">Top Liked Recipes</h1>
-        <p className="text-center text-gray-500 mt-2 text-xl md:text-2xl">
-          Discover the most popular recipes loved by our community
-        </p>
+          <p className="text-center text-gray-500 mt-2 text-xl md:text-2xl">
+            Discover the most popular recipes loved by our community
+          </p>
         </MotionWrapper>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
           {recipeData.slice(0, 6).map((recipe) => (
@@ -58,13 +58,11 @@ const Home = () => {
             </MotionWrapper>
           ))}
         </div>
-        
       </section>
-      
+
       {/* why choose our recipe */}
       <section className="py-10 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
           {/* Title Animation */}
           <MotionWrapper className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -72,7 +70,8 @@ const Home = () => {
             </h2>
 
             <p className="text-xl text-muted-foreground">
-              Everything you need to become a better home chef and discover amazing recipes from around the world.
+              Everything you need to become a better home chef and discover
+              amazing recipes from around the world.
             </p>
           </MotionWrapper>
 
@@ -104,19 +103,12 @@ const Home = () => {
               );
             })}
           </div>
-
         </div>
       </section>
 
       {/* join our community */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-        >
+        <MotionWrapper className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Image Section */}
           <div>
             <div className="relative h-96 rounded-2xl overflow-hidden">
@@ -135,24 +127,25 @@ const Home = () => {
             </h2>
 
             <p className="text-xl text-muted-foreground mb-6">
-              Connect with thousands of passionate home cooks, share your culinary
-              creations, and discover new flavors every day. Our community is
-              growing and we'd love to have you!
+              Connect with thousands of passionate home cooks, share your
+              culinary creations, and discover new flavors every day. Our
+              community is growing and we'd love to have you!
             </p>
 
             <ul className="space-y-3 mb-8">
-             {
-              benifits.map((benifit) => {
+              {benifits.map((benifit) => {
                 return (
-                  <li key={benifit.id} className="flex items-center gap-3 text-foreground">
+                  <li
+                    key={benifit.id}
+                    className="flex items-center gap-3 text-foreground"
+                  >
                     <div className="w-6 h-6 bg-[var(--primary)] rounded-full flex items-center justify-center flex-shrink-0 ">
                       <span className="text-primary-foreground text-lg">✓</span>
                     </div>
                     <span className="text-xl">{benifit.text}</span>
                   </li>
                 );
-              })
-            }
+              })}
             </ul>
 
             <Link
@@ -163,7 +156,7 @@ const Home = () => {
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
-        </motion.div>
+        </MotionWrapper>
       </section>
     </>
   );

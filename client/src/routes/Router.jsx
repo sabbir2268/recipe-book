@@ -5,14 +5,17 @@ import { AddRecipes } from "../pages/AddRecipes";
 import { AllRecipes } from "../pages/AllRecipes";
 import { MyRecipes } from "../pages/MyRecipes";
 import { Login } from "../pages/Login";
-
 import { Register } from "../pages/Register";
 import AuthLayout from "../layouts/AuthLayout";
+import { Error } from "../pages/Error";
+import RecipeDetailsPage from "../pages/RecipeDetailsPage";
+import RecipeDetails from "../components/RecipeDetails";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout></MainLayout>,
+    errorElement: <Error></Error>,
     children: [
       {
         index: true,
@@ -30,21 +33,24 @@ export const router = createBrowserRouter([
         path: "/addRecipes",
         element: <AddRecipes></AddRecipes>,
       },
+      {
+        path: "/recipe/:id",
+        element: <RecipeDetailsPage></RecipeDetailsPage>,
+      },
     ],
   },
-{
-  path: "/auth",
-  element: <AuthLayout />,
-  children: [
-    {
-      path: "login",
-      element: <Login />
-    },
-    {
-      path: "register",
-      element: <Register />
-    }
-  ]
-}
-  
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+    ],
+  },
 ]);
