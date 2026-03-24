@@ -11,9 +11,12 @@ import {
 import MotionWrapper from "../components/MotionWrapper";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase/firebase";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export const Register = () => {
   const navigate = useNavigate();
+  const {signInWithGoogle} = useContext(AuthContext);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -46,6 +49,17 @@ export const Register = () => {
     } catch (error) {
       console.error(error.code, error.message);
       alert(error.message);
+    }
+  };
+
+  const handleGoogleLogin = async() =>{
+    try{
+      const user = await signInWithGoogle();
+      alert(`${user.email} logged in with Google`);
+      navigate("/");
+    }catch(error){
+      console.error(error);
+      alert("Google Login Failed");
     }
   };
 
@@ -134,9 +148,9 @@ export const Register = () => {
             </button>
           </form>
 
-          <button className="w-full h-10 sm:h-11 mt-3 flex items-center justify-center gap-2 border border-border rounded-lg hover:bg-[var(--accent)] transition-colors font-semibold text-sm sm:text-base">
+          <button onClick={handleGoogleLogin} className="w-full h-10 sm:h-11 mt-3 flex items-center justify-center gap-2 border border-border rounded-lg hover:bg-[var(--accent)] transition-colors font-semibold text-sm sm:text-base">
             <Chrome className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span>Register with Google</span>
+            <span>Continue With Google</span>
           </button>
 
           <p className="mt-4 sm:mt-6 text-center text-sm sm:text-lg text-muted-foreground">

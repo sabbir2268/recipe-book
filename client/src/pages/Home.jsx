@@ -53,10 +53,18 @@ const Home = () => {
         </MotionWrapper>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
           {recipeData.slice(0, 6).map((recipe) => (
-            <MotionWrapper>
-              <RecipeCard key={recipe.id} recipe={recipe} />
+            <MotionWrapper key={recipe.id}>
+              <RecipeCard recipe={recipe} />
             </MotionWrapper>
           ))}
+        </div>
+        <div className="mt-5 flex items-center justify-center">
+          <Link
+          to={"/allRecipes"}
+          className="mt-3 bg-[var(--accent)] text-[var(--primary)] rounded-lg hover:opacity-90 hover:bg-[#de950d49] hover:text-black transition text-center py-2 px-5 text-lg"
+        >
+          More Recipes
+        </Link>
         </div>
       </section>
 

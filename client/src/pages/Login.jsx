@@ -3,11 +3,14 @@ import { ChefHat, Mail, Lock, Chrome, ArrowLeft } from "lucide-react";
 import MotionWrapper from "../components/MotionWrapper";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const {signInWithGoogle} = useContext(AuthContext)
 
-  const handleLogin = async (e) => {
+  const handleEmailLogin = async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
@@ -42,6 +45,17 @@ export const Login = () => {
     
   };
 
+  const handleGoogleLogin = async() =>{
+    try{
+      const user = await signInWithGoogle();
+      alert(`${user.email} logged in with Google`);
+      navigate("/");
+    }catch(error){
+      console.error(error);
+      alert("Google Login Failed");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[var(--background)] flex flex-col items-center justify-center px-4 py-10 relative">
       <MotionWrapper className="w-full max-w-md">
@@ -69,7 +83,7 @@ export const Login = () => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleLogin} className="space-y-3">
+          <form onSubmit={handleEmailLogin} className="space-y-3">
             {/* Email */}
             <div className="space-y-2">
               <label className="flex items-center gap-2 text-lg text-foreground">
@@ -102,12 +116,12 @@ export const Login = () => {
 
             {/* Forgot */}
             <div className="text-right">
-              <a
-                href="#"
+              <Link
+                to="/auth/forgotPassword"
                 className="text-sm text-[var(--primary)] hover:underline"
               >
                 Forgot Password?
-              </a>
+              </Link>
             </div>
 
             {/* Submit */}
@@ -127,9 +141,9 @@ export const Login = () => {
           </div>
 
           {/* Google */}
-          <button className="w-full h-11 flex items-center justify-center gap-2 border border-border rounded-lg hover:bg-[var(--accent)] transition-colors font-semibold text-lg">
+          <button onClick={handleGoogleLogin} className="w-full h-11 flex items-center justify-center gap-2 border border-border rounded-lg hover:bg-[var(--accent)] transition-colors font-semibold text-lg">
             <Chrome className="w-5 h-5" />
-            <span>Login with Google</span>
+            <span>Continue With Google</span>
           </button>
 
           {/* Register */}

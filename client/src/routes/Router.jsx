@@ -11,6 +11,7 @@ import { Error } from "../pages/Error";
 import RecipeDetailsPage from "../pages/RecipeDetailsPage";
 import PrivateRoute from "./PrivateRoute";
 import Profile from "../pages/Profile";
+import ForgotPassword from "../pages/ForgotPass";
 
 
 export const router = createBrowserRouter([
@@ -51,7 +52,7 @@ export const router = createBrowserRouter([
         <PrivateRoute>
           <Profile></Profile>
         </PrivateRoute>,
-      }
+      },
     ],
   },
   {
@@ -65,6 +66,10 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path:"forgotPassword",
+        element: <ForgotPassword/>
       },
     ],
   },

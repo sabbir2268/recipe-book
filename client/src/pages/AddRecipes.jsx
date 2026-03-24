@@ -57,14 +57,10 @@ export const AddRecipes = () => {
           <h1 className="text-3xl font-bold mb-2">
             Add New Recipe
           </h1>
-
-          <p className="text-gray-500">
-            Share your culinary creation with the world
-          </p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-1">
 
           {/* Image URL */}
           <div>
@@ -109,7 +105,7 @@ export const AddRecipes = () => {
 
             <textarea
               name="ingredients"
-              rows="5"
+              rows="3"
               placeholder="List all ingredients separated by commas"
               value={formData.ingredients}
               onChange={handleChange}
@@ -126,7 +122,7 @@ export const AddRecipes = () => {
 
             <textarea
               name="instructions"
-              rows="6"
+              rows="3"
               placeholder="Step-by-step instructions"
               value={formData.instructions}
               onChange={handleChange}

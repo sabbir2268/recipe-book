@@ -9,7 +9,7 @@ import { auth } from "../firebase/firebase";
 
 
 const Navbar = () => {
-  const {user, loading} = useContext(AuthContext);
+  const {user, loading, logout} = useContext(AuthContext);
   const [theme, setTheme] = useState("light");
 
   const links = [
@@ -29,18 +29,16 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
-      // optionally, you can show a toast here
+      await logout();
       console.log("Logged out successfully");
+      navigate("/auth/login"); // redirect after logout
     } catch (error) {
       console.error("Logout error:", error);
     }
   };
 
   if (loading) {
-    return (
-      <Loading></Loading>
-    )
+    return <Loading />;
   }
 
   return (
