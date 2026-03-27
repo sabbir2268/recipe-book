@@ -16,7 +16,7 @@ import { AuthContext } from "../context/AuthContext";
 
 export const Register = () => {
   const navigate = useNavigate();
-  const {signInWithGoogle} = useContext(AuthContext);
+  const { signInWithGoogle } = useContext(AuthContext);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -30,6 +30,20 @@ export const Register = () => {
 
     if (!name || !email || !password) {
       alert("Please fill in all required fields!");
+      return;
+    }
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long");
+      return;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      alert("Password must contain at least one uppercase letter");
+      return;
+    }
+
+    if (!/[a-z]/.test(password)) {
+      alert("Password must contain at least one lowercase letter");
       return;
     }
 
@@ -52,12 +66,12 @@ export const Register = () => {
     }
   };
 
-  const handleGoogleLogin = async() =>{
-    try{
+  const handleGoogleLogin = async () => {
+    try {
       const user = await signInWithGoogle();
       alert(`${user.email} logged in with Google`);
       navigate("/");
-    }catch(error){
+    } catch (error) {
       console.error(error);
       alert("Google Login Failed");
     }
@@ -148,7 +162,10 @@ export const Register = () => {
             </button>
           </form>
 
-          <button onClick={handleGoogleLogin} className="w-full h-10 sm:h-11 mt-3 flex items-center justify-center gap-2 border border-border rounded-lg hover:bg-[var(--accent)] transition-colors font-semibold text-sm sm:text-base">
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full h-10 sm:h-11 mt-3 flex items-center justify-center gap-2 border border-border rounded-lg hover:bg-[var(--accent)] transition-colors font-semibold text-sm sm:text-base"
+          >
             <Chrome className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Continue With Google</span>
           </button>

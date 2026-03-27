@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import Banner from "../components/Banner";
 import { motion } from "framer-motion";
 
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 import { Share2, Globe, Heart } from "lucide-react";
-import recipeData from "../../src/data/recipeData.json";
 import RecipeCard from "../components/RecipeCard";
 import MotionWrapper from "../components/MotionWrapper";
+import { RecipesContext } from "../context/RecipesContext";
 
 const Home = () => {
+  const { allRecipes } = useContext(RecipesContext);
+
   const benifits = [
     { id: 1, text: "Share unlimited recipes" },
     { id: 2, text: "Connect with food enthusiasts" },
@@ -52,7 +54,7 @@ const Home = () => {
           </p>
         </MotionWrapper>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
-          {recipeData.slice(0, 6).map((recipe) => (
+          {allRecipes.slice(0, 6).map((recipe) => (
             <MotionWrapper key={recipe.id}>
               <RecipeCard recipe={recipe} />
             </MotionWrapper>
@@ -60,11 +62,11 @@ const Home = () => {
         </div>
         <div className="mt-5 flex items-center justify-center">
           <Link
-          to={"/allRecipes"}
-          className="mt-3 bg-[var(--accent)] text-[var(--primary)] rounded-lg hover:opacity-90 hover:bg-[#de950d49] hover:text-black transition text-center py-2 px-5 text-lg"
-        >
-          More Recipes
-        </Link>
+            to={"/allRecipes"}
+            className="mt-3 bg-[var(--accent)] text-[var(--primary)] rounded-lg hover:opacity-90 hover:bg-[#de950d49] hover:text-black transition text-center py-2 px-5 text-lg"
+          >
+            More Recipes
+          </Link>
         </div>
       </section>
 

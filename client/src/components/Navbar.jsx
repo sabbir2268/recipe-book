@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ChefHat, Menu, Sun, Moon, UserPlus } from "lucide-react";
 import { motion } from "framer-motion";
 import { AuthContext } from "../context/AuthContext";
-import Loading from "../components/Loading"
+import Loading from "../components/Loading";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 
-
 const Navbar = () => {
-  const {user, loading, logout} = useContext(AuthContext);
+  const { user, loading, logout } = useContext(AuthContext);
   const [theme, setTheme] = useState("light");
+  const navigate = useNavigate();
 
   const links = [
     { path: "/", title: "Home", authRequired: false },
@@ -19,7 +19,8 @@ const Navbar = () => {
     { path: "/myRecipes", title: "My Recipes", authRequired: true },
   ];
 
-  const btnBase = "px-3 py-1 rounded-md text-sm transition-colors hover:bg-[var(--primary)] hover:text-[var(--accent)]";
+  const btnBase =
+    "px-3 py-1 rounded-md text-sm transition-colors hover:bg-[var(--primary)] hover:text-[var(--accent)]";
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -63,8 +64,8 @@ const Navbar = () => {
 
             <ul className="dropdown-content menu bg-[var(--accent)] rounded-box w-40 shadow-md mt-2 gap-1 p-2 text-[var(--foreground)]">
               {links
-                .filter(link => !link.authRequired || user)
-                .map(link => (
+                .filter((link) => !link.authRequired || user)
+                .map((link) => (
                   <NavLink
                     key={link.title}
                     to={link.path}
@@ -100,8 +101,8 @@ const Navbar = () => {
         {/* CENTER */}
         <div className="hidden md:flex gap-2">
           {links
-            .filter(link => !link.authRequired || user) // only show if no auth needed OR user is logged in
-            .map(link => (
+            .filter((link) => !link.authRequired || user) // only show if no auth needed OR user is logged in
+            .map((link) => (
               <NavLink
                 key={link.title}
                 to={link.path}
@@ -115,7 +116,7 @@ const Navbar = () => {
               >
                 {link.title}
               </NavLink>
-          ))}
+            ))}
         </div>
 
         {/* RIGHT */}
@@ -141,7 +142,10 @@ const Navbar = () => {
                   Login
                 </Link>
 
-                <Link to={"/auth/register"} className={`${btnBase} bg-[var(--primary)] text-black`}>
+                <Link
+                  to={"/auth/register"}
+                  className={`${btnBase} bg-[var(--primary)] text-black`}
+                >
                   Register
                 </Link>
               </div>
@@ -159,11 +163,15 @@ const Navbar = () => {
                 <ul className="dropdown-content menu bg-[var(--accent)] rounded-box w-32 p-2 shadow gap-2">
                   <Link
                     to={"/auth/login"}
-                    className={`${btnBase} border border-[var(--foreground)]`}>
+                    className={`${btnBase} border border-[var(--foreground)]`}
+                  >
                     Login
                   </Link>
 
-                  <Link to={"/auth/register"} className={`${btnBase} bg-[var(--primary)] text-black`}>
+                  <Link
+                    to={"/auth/register"}
+                    className={`${btnBase} bg-[var(--primary)] text-black`}
+                  >
                     Register
                   </Link>
                 </ul>
@@ -174,11 +182,14 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="avatar cursor-pointer">
                 <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
-                    <img
-                      src={user.photoURL || "https://img.daisyui.com/images/profile/demo/spiderperson@192.webp"}
-                      alt={user.displayName || "User Avatar"}
-                      className="w-full h-full object-cover"
-                    />
+                  <img
+                    src={
+                      user.photoURL ||
+                      "https://img.daisyui.com/images/profile/demo/spiderperson@192.webp"
+                    }
+                    alt={user.displayName || "User Avatar"}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
 

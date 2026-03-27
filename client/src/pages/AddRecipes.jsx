@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ChefHat, Image as ImageIcon, Clock } from "lucide-react";
- 
+import { auth } from "../firebase/firebase";
+import { RecipesContext } from "../context/RecipesContext";
+
 export const AddRecipes = () => {
+  const { allRecipes, setAllRecipes } = useContext(RecipesContext);
+
   const [formData, setFormData] = useState({
     image: "",
     title: "",
@@ -39,29 +43,56 @@ export const AddRecipes = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    const user = auth.currentUser;
+
+    const dataToSend = {
+      ...formData,
+      userId: user.uid,
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/recipes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataToSend),
+      });
+      const Data = await res.json();
+      setAllRecipes((prev) => [...prev, Data]);
+      alert("recipe added successfully");
+    } catch (error) {
+      console.log("error:", error);
+    }
+
+    setFormData({
+      image: "",
+      title: "",
+      ingredients: "",
+      instructions: "",
+      cuisineType: "",
+      preparationTime: "",
+      categories: [],
+    });
   };
 
   return (
     <div className="min-h-screen bg-[var(--background)] flex items-center justify-center px-10 pt-10">
       <div className="max-w-4xl w-full bg-[var(--background)] shadow-lg rounded-2xl border p-8">
-
         {/* Header */}
         <div className="text-center mb-10">
           <div className="w-16 h-16 bg-[var(--primary)] rounded-2xl flex items-center justify-center mx-auto mb-4">
             <ChefHat className="w-8 h-8 text-white" />
           </div>
 
-          <h1 className="text-3xl font-bold mb-2">
-            Add New Recipe
-          </h1>
+          <h1 className="text-3xl font-bold mb-2">Add New Recipe</h1>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-1">
-
           {/* Image URL */}
           <div>
             <label className="flex items-center gap-2 font-medium mb-2">
@@ -82,9 +113,7 @@ export const AddRecipes = () => {
 
           {/* Title */}
           <div>
-            <label className="font-medium mb-2 block">
-              Recipe Title
-            </label>
+            <label className="font-medium mb-2 block">Recipe Title</label>
 
             <input
               type="text"
@@ -99,9 +128,7 @@ export const AddRecipes = () => {
 
           {/* Ingredients */}
           <div>
-            <label className="font-medium mb-2 block">
-              Ingredients
-            </label>
+            <label className="font-medium mb-2 block">Ingredients</label>
 
             <textarea
               name="ingredients"
@@ -133,11 +160,8 @@ export const AddRecipes = () => {
 
           {/* Cuisine + Time */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
             <div>
-              <label className="font-medium mb-2 block">
-                Cuisine Type
-              </label>
+              <label className="font-medium mb-2 block">Cuisine Type</label>
 
               <select
                 name="cuisineType"
@@ -174,14 +198,11 @@ export const AddRecipes = () => {
                 required
               />
             </div>
-
           </div>
 
           {/* Categories */}
           <div>
-            <label className="font-medium block mb-3">
-              Categories
-            </label>
+            <label className="font-medium block mb-3">Categories</label>
 
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
               {categoryOptions.map((category) => (
@@ -202,9 +223,7 @@ export const AddRecipes = () => {
 
           {/* Like Count */}
           <div>
-            <label className="font-medium mb-2 block">
-              Like Count
-            </label>
+            <label className="font-medium mb-2 block">Like Count</label>
 
             <input
               type="number"
@@ -225,9 +244,7 @@ export const AddRecipes = () => {
           >
             Add Recipe
           </button>
-
         </form>
-
       </div>
     </div>
   );

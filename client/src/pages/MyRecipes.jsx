@@ -1,14 +1,26 @@
-import React from "react";
-import myRecipeData from "../data/myrecipeData.json";
+import React, { useContext } from "react";
+import { RecipesContext } from "../context/RecipesContext";
 import { ChefHat } from "lucide-react";
-import RecipeCard from "../components/RecipeCard";
-import {motion} from "framer-motion"
-import { Link } from "react-router";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import Loading from "../components/Loading";
+import MyRecipeCard from "../components/MyRecipeCard";
 
-
-// MyRecipesPage Component
 export const MyRecipes = () => {
-  const recipes = myRecipeData; // your JSON data
+  const { allRecipes, loading, currentUser } = useContext(RecipesContext);
+
+  // ✅ Filter recipes by current user's UID
+  const userRecipes = allRecipes.filter(
+    (recipe) => recipe.userId === currentUser?.uid,
+  );
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-12">
@@ -19,16 +31,16 @@ export const MyRecipes = () => {
         </div>
         <h1 className="text-3xl font-bold text-gray-800 mb-2">My Recipes</h1>
         <p className="text-gray-500">
-          {recipes.length === 0
+          {userRecipes.length === 0
             ? "You don't have any recipes yet."
-            : `You have ${recipes.length} ${
-                recipes.length === 1 ? "recipe" : "recipes"
+            : `You have ${userRecipes.length} ${
+                userRecipes.length === 1 ? "recipe" : "recipes"
               }`}
         </p>
       </div>
 
-      {/* No Recipes Message */}
-      {recipes.length === 0 ? (
+      {/* Empty State */}
+      {userRecipes.length === 0 ? (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -36,21 +48,24 @@ export const MyRecipes = () => {
           className="text-center py-20"
         >
           <p className="text-gray-500 mb-6">
-            Start adding your favorite recipes and showcase your culinary skills!
+            Start adding your favorite recipes and showcase your culinary
+            skills!
           </p>
-          <Link to={"/addRecipes"} className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition">
+          <Link
+            to="/addRecipes"
+            className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition"
+          >
             Add Your First Recipe
           </Link>
         </motion.div>
       ) : (
         // Recipes Grid
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {recipes.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
+          {userRecipes.map((recipe, index) => (
+            <MyRecipeCard key={recipe.id ?? index} recipe={recipe} />
           ))}
         </div>
       )}
     </div>
   );
 };
-
