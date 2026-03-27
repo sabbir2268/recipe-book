@@ -1,8 +1,0 @@
-{
-  "files.autoSave": "onWindowChange",
-  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
-  "editor.wordWrap": "on",
-  "editor.tabSize": 2,
-  "editor.mouseWheelZoom": true,
-  "editor.formatOnPaste": true
-}
