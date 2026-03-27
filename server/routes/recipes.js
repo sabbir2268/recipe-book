@@ -1,34 +1,39 @@
-const express = require('express');
-const { ObjectId } = require('mongodb');
+const express = require("express");
+const { ObjectId } = require("mongodb");
 
-module.exports = (projectsCollection) => {
+module.exports = (recipeCollection) => {
   const router = express.Router();
 
-  // GET all projects
-  router.get('/', async (req, res) => {
-    const result = await projectsCollection.find().toArray();
+  router.get("/", async (req, res) => {
+    const result = await recipeCollection.find().toArray();
     res.send(result);
   });
 
-  // POST new project
-  router.post('/', async (req, res) => {
-    const newProject = req.body;
-    const result = await projectsCollection.insertOne(newProject);
-    res.status(201).json({ insertedId: result.insertedId });
+  router.post("/", async (req, res) => {
+    const newRecipe = req.body;
+    const result = await recipeCollection.insertOne(newRecipe);
+
+    const savedRecipe = {
+      ...newRecipe,
+      _id: result.insertedId,
+    };
+
+    res.status(201).json(savedRecipe);
   });
 
-  // DELETE project
-  router.delete('/:id', async (req, res) => {
+  router.delete("/:id", async (req, res) => {
     const id = req.params.id;
-    const result = await projectsCollection.deleteOne({ _id: new ObjectId(id) });
+    const result = await recipeCollection.deleteOne({ _id: new ObjectId(id) });
     res.json({ deletedCount: result.deletedCount });
   });
 
-  // UPDATE project
-  router.put('/:id', async (req, res) => {
+  router.put("/:id", async (req, res) => {
     const id = req.params.id;
     const updatedDoc = { $set: req.body };
-    const result = await projectsCollection.updateOne({ _id: new ObjectId(id) }, updatedDoc);
+    const result = await recipeCollection.updateOne(
+      { _id: new ObjectId(id) },
+      updatedDoc,
+    );
     res.json({ modifiedCount: result.modifiedCount });
   });
 

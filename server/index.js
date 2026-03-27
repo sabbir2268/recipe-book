@@ -1,9 +1,9 @@
-require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const express = require('express');
-const cors = require('cors');
+require("dotenv").config();
+const { MongoClient, ServerApiVersion } = require("mongodb");
+const express = require("express");
+const cors = require("cors");
 // connecting index.js to recipeRoutes
-const recipeRoutes = require('./routes/recipes.js');
+const recipeRoutes = require("./routes/recipes");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,7 +18,7 @@ const client = new MongoClient(uri, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
 });
 
 async function run() {
@@ -27,10 +27,11 @@ async function run() {
     await client.db("admin").command({ ping: 1 });
     console.log("✅ Successfully connected to MongoDB!");
 
-    const recipesCollection = client.db(process.env.DB_NAME).collection('recipes');
+    const recipesCollection = client
+      .db(process.env.DB_NAME)
+      .collection("recipes");
 
-    app.use('/recipes', recipeRoutes(recipesCollection));
-
+    app.use("/recipes", recipeRoutes(recipesCollection));
   } catch (err) {
     console.error("❌ MongoDB connection failed:", err);
   }
@@ -38,11 +39,10 @@ async function run() {
 
 run();
 
-app.get('/', (req, res) => {
-  res.send('Recipe Book Server Is Running in browser');
+app.get("/", (req, res) => {
+  res.send("Recipe Book Server Is Running in browser");
 });
 
 app.listen(port, () => {
   console.log(`🚀 Recipe Book Server running on port ${port}`);
 });
-
