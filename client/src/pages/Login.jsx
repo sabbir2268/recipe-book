@@ -5,10 +5,11 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const {signInWithGoogle} = useContext(AuthContext)
+  const { signInWithGoogle } = useContext(AuthContext);
 
   const handleEmailLogin = async (e) => {
     e.preventDefault();
@@ -18,7 +19,11 @@ export const Login = () => {
     const password = formData.get("password");
 
     if (!email?.trim() || !password?.trim()) {
-      alert("Please fill in all required fields!");
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please fill in all required fields!",
+      });
       return;
     }
 
@@ -30,29 +35,54 @@ export const Login = () => {
       );
 
       const user = userCredential.user;
-      alert(`${user.email} logged in successfully`);
+
+      await Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: `${user.email} logged in successfully`,
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
       navigate("/");
-    } 
-    catch (error) {
-        if (error.code === "auth/user-not-found") {
-          alert("User not found");
-        } else if (error.code === "auth/wrong-password") {
-          alert("Incorrect password");
-        } else {
-          alert("Login failed. Try again.");
-        }
+    } catch (error) {
+      let message = "Login failed. Try again.";
+
+      if (error.code === "auth/user-not-found") {
+        message = "User not found";
+      } else if (error.code === "auth/wrong-password") {
+        message = "Incorrect password";
       }
-    
+
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: message,
+      });
+    }
   };
 
-  const handleGoogleLogin = async() =>{
-    try{
+  const handleGoogleLogin = async () => {
+    try {
       const user = await signInWithGoogle();
-      alert(`${user.email} logged in with Google`);
+
+      await Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: `${user.email} logged in with Google`,
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
       navigate("/");
-    }catch(error){
+    } catch (error) {
       console.error(error);
-      alert("Google Login Failed");
+
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: "Google login was unsuccessful",
+      });
     }
   };
 
@@ -141,7 +171,10 @@ export const Login = () => {
           </div>
 
           {/* Google */}
-          <button onClick={handleGoogleLogin} className="w-full h-11 flex items-center justify-center gap-2 border border-border rounded-lg hover:bg-[var(--accent)] transition-colors font-semibold text-lg">
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full h-11 flex items-center justify-center gap-2 border border-border rounded-lg hover:bg-[var(--accent)] transition-colors font-semibold text-lg"
+          >
             <Chrome className="w-5 h-5" />
             <span>Continue With Google</span>
           </button>

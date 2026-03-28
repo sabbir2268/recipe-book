@@ -2,7 +2,6 @@ import { Heart, Clock } from "lucide-react";
 import { Link } from "react-router";
 
 const RecipeCard = ({ recipe }) => {
-  console.log(recipe);
   return (
     <div className="bg-[var(--card)] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-[var(--border)] hover:-translate-y-2">
       {/* Image */}

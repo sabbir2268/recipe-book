@@ -5,8 +5,10 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import MyRecipeCard from "../components/MyRecipeCard";
+import { useScrollToTop } from "../hooks/useScrollToTop";
 
 export const MyRecipes = () => {
+  useScrollToTop();
   const { allRecipes, loading, currentUser } = useContext(RecipesContext);
 
   // ✅ Filter recipes by current user's UID
@@ -23,13 +25,15 @@ export const MyRecipes = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-12">
+    <div className="min-h-screen bg-[var(--background)] px-4 py-12">
       {/* Header */}
       <div className="max-w-5xl mx-auto text-center mb-12">
-        <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-          <ChefHat className="w-8 h-8 text-white" />
+        <div className="w-16 h-16 bg-[var(--primary)] rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <ChefHat className="w-8 h-8 text-[var(--foreground)]" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">My Recipes</h1>
+        <h1 className="text-3xl font-bold text-[var(--foreground)] mb-2">
+          My Recipes
+        </h1>
         <p className="text-gray-500">
           {userRecipes.length === 0
             ? "You don't have any recipes yet."

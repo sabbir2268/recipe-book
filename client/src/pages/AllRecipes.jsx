@@ -3,8 +3,10 @@ import { motion } from "framer-motion";
 import RecipeCard from "../components/RecipeCard";
 import { RecipesContext } from "../context/RecipesContext";
 import Loading from "../components/Loading";
+import { useScrollToTop } from "../hooks/useScrollToTop";
 
 export const AllRecipes = () => {
+  useScrollToTop();
   const { allRecipes, loading } = useContext(RecipesContext);
 
   if (loading) {
@@ -18,7 +20,9 @@ export const AllRecipes = () => {
   if (!allRecipes || allRecipes.length === 0) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-center px-4">
-        <h2 className="text-2xl font-semibold mb-4">No recipes found</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-[var(--foreground)]">
+          No recipes found
+        </h2>
         <p className="text-gray-500">Check back later for delicious recipes!</p>
       </div>
     );
@@ -28,7 +32,7 @@ export const AllRecipes = () => {
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
       {/* Title */}
       <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+        <h1 className="text-3xl md:text-4xl font-bold text-[var(--foreground)]">
           All Recipes
         </h1>
         <p className="text-gray-500 mt-2">

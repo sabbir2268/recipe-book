@@ -2,9 +2,14 @@ import { useContext, useState } from "react";
 import { ChefHat, Image as ImageIcon, Clock } from "lucide-react";
 import { auth } from "../firebase/firebase";
 import { RecipesContext } from "../context/RecipesContext";
+import { API_URL } from "../api";
+import Swal from "sweetalert2";
+import { useScrollToTop } from "../hooks/useScrollToTop";
 
 export const AddRecipes = () => {
-  const { allRecipes, setAllRecipes } = useContext(RecipesContext);
+  useScrollToTop();
+
+  const { setAllRecipes } = useContext(RecipesContext);
 
   const [formData, setFormData] = useState({
     image: "",
@@ -54,18 +59,33 @@ export const AddRecipes = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/recipes", {
+      const res = await fetch(`${API_URL}/recipes`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(dataToSend),
       });
-      const Data = await res.json();
-      setAllRecipes((prev) => [...prev, Data]);
-      alert("recipe added successfully");
+
+      const data = await res.json();
+
+      setAllRecipes((prev) => [...prev, data]);
+
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Recipe added successfully",
+        timer: 2000,
+        showConfirmButton: false,
+      });
     } catch (error) {
-      console.log("error:", error);
+      console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to add recipe",
+      });
     }
 
     setFormData({
@@ -167,7 +187,7 @@ export const AddRecipes = () => {
                 name="cuisineType"
                 value={formData.cuisineType}
                 onChange={handleChange}
-                className="w-full border rounded-lg h-11 px-3"
+                className="w-full border rounded-lg h-11 px-3 bg-[var(--background)]"
                 required
               >
                 <option value="">Select cuisine</option>
@@ -240,7 +260,7 @@ export const AddRecipes = () => {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full h-12 bg-[var(--primary)] text-white rounded-lg font-semibold hover:bg-orange-600 transition"
+            className="w-full h-12 bg-[var(--primary)] text-white rounded-lg font-semibold transition-all duration-300 hover:text-black hover:scale-95"
           >
             Add Recipe
           </button>

@@ -11,8 +11,9 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   const quickLinks = [
     { title: "Home", path: "/" },
-    { title: "All Recipes", path: "/recipes" },
-    { title: "Add Recipe", path: "/add-recipe" },
+    { title: "All Recipes", path: "/allRecipes" },
+    { title: "Add Recipes", path: "/addRecipes" },
+    { title: "My Recipes", path: "/myRecipes" },
   ];
 
   const categories = ["Breakfast", "Lunch", "Dinner", "Dessert"];
@@ -44,7 +45,6 @@ const Footer = () => {
     <footer className="bg-card border-t border-border mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
-          
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -86,10 +86,7 @@ const Footer = () => {
 
             <ul className="space-y-2 flex gap-3 md:flex-col">
               {categories.map((category) => (
-                <li
-                  key={category}
-                  className="text-md text-muted-foreground"
-                >
+                <li key={category} className="text-md text-muted-foreground">
                   {category}
                 </li>
               ))}
@@ -114,15 +111,13 @@ const Footer = () => {
               ))}
             </div>
           </div>
-
         </div>
 
         {/* Bottom */}
         <div className="mt-12 pt-8 border-t border-border">
           <p className="text-center text-md text-muted-foreground flex items-center justify-center gap-1">
-            Made with{" "}
-            <Heart className="w-4 h-4 text-red-500 fill-red-500" /> by Recipe
-            Book © 2026
+            Made with <Heart className="w-4 h-4 text-red-500 fill-red-500" /> by
+            Recipe Book © 2026
           </p>
         </div>
       </div>

@@ -2,8 +2,12 @@ import { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { RecipesContext } from "../context/RecipesContext";
 import { Clock, Image as ImageIcon } from "lucide-react";
+import Swal from "sweetalert2";
+import { API_URL } from "../api";
+import { useScrollToTop } from "../hooks/useScrollToTop";
 
 const UpdateRecipe = () => {
+  useScrollToTop();
   const { id } = useParams();
   const navigate = useNavigate();
   const { allRecipes, setAllRecipes } = useContext(RecipesContext);
@@ -61,24 +65,45 @@ const UpdateRecipe = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`http://localhost:3000/recipes/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const res = await fetch(`${API_URL}/recipes/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // const updated = await res.json();
-    // console.log("updated data:", updated);
+      if (!res.ok) {
+        throw new Error("Update failed");
+      }
 
-    // Update UI instantly
-    setAllRecipes((prev) =>
-      prev.map((r) => (r._id === id ? { ...r, ...formData } : r)),
-    );
+      const updated = await res.json();
 
-    alert("Recipe updated successfully");
-    navigate("/myRecipes");
+      // Update UI instantly
+      setAllRecipes((prev) =>
+        prev.map((r) => (r._id === id ? { ...r, ...updated } : r)),
+      );
+
+      // Success toast
+      await Swal.fire({
+        icon: "success",
+        title: "Updated!",
+        text: "Recipe updated successfully",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
+      navigate("/myRecipes");
+    } catch (error) {
+      console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to update recipe",
+      });
+    }
   };
 
   if (!recipe) return <p className="text-center mt-10">Recipe not found</p>;
@@ -181,7 +206,7 @@ const UpdateRecipe = () => {
           type="number"
           value={formData.likeCount}
           disabled
-          className="w-full border p-2 rounded bg-gray-100 cursor-not-allowed"
+          className="w-full border p-2 rounded bg-[var(--background)] cursor-not-allowed"
         />
       </div>
 

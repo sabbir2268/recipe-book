@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { API_URL } from "../api";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { RecipesContext } from "./RecipesContext";
+import Swal from "sweetalert2";
 
 export const RecipeProvider = ({ children }) => {
   const [allRecipes, setAllRecipes] = useState([]);
@@ -22,15 +23,44 @@ export const RecipeProvider = ({ children }) => {
   };
 
   const handleDeleteRecipe = async (id) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This recipe will be permanently deleted!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
     try {
-      await fetch(`${API_URL}/recipes/${id}`, {
+      const res = await fetch(`${API_URL}/recipes/${id}`, {
         method: "DELETE",
       });
 
+      if (!res.ok) {
+        throw new Error("Delete failed");
+      }
+
       // update state after delete
       setAllRecipes((prev) => prev.filter((r) => r._id !== id));
+
+      Swal.fire({
+        icon: "success",
+        title: "Deleted!",
+        text: "Recipe has been deleted.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
     } catch (error) {
       console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to delete recipe",
+      });
     }
   };
 

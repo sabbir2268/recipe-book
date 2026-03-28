@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Banner from "../components/Banner";
 import { motion } from "framer-motion";
 
@@ -8,9 +8,29 @@ import { Share2, Globe, Heart } from "lucide-react";
 import RecipeCard from "../components/RecipeCard";
 import MotionWrapper from "../components/MotionWrapper";
 import { RecipesContext } from "../context/RecipesContext";
+import { useScrollToTop } from "../hooks/useScrollToTop";
 
 const Home = () => {
+  useScrollToTop();
   const { allRecipes } = useContext(RecipesContext);
+
+  const [selectedCuisine, setSelectedCuisine] = useState("all");
+
+  const cuisineOptions = [
+    "all",
+    "Italian",
+    "Mexican",
+    "Indian",
+    "Chinese",
+    "American",
+    "French",
+    "Others",
+  ];
+
+  const filteredRecipes =
+    selectedCuisine === "all"
+      ? allRecipes
+      : allRecipes.filter((recipe) => recipe.cuisineType === selectedCuisine);
 
   const benifits = [
     { id: 1, text: "Share unlimited recipes" },
@@ -47,27 +67,62 @@ const Home = () => {
 
       {/* top liked recipes */}
       <section className="max-w-7xl mx-auto px-10 pt-10">
-        <MotionWrapper>
-          <h1 className="text-3xl font-bold text-center">Top Liked Recipes</h1>
-          <p className="text-center text-gray-500 mt-2 text-xl md:text-2xl">
-            Discover the most popular recipes loved by our community
-          </p>
-        </MotionWrapper>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
-          {allRecipes.slice(0, 6).map((recipe) => (
-            <MotionWrapper key={recipe.id}>
-              <RecipeCard recipe={recipe} />
-            </MotionWrapper>
-          ))}
+        {/* Header with filter */}
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+          <MotionWrapper>
+            <div>
+              <h1 className="text-3xl font-bold text-center md:text-left">
+                Top Liked Recipes
+              </h1>
+              <p className="text-center md:text-left text-gray-500 mt-2 text-xl md:text-2xl">
+                Discover the most popular recipes loved by our community
+              </p>
+            </div>
+          </MotionWrapper>
+
+          {/* Filter Dropdown */}
+          <div className="flex justify-center md:justify-end">
+            <select
+              value={selectedCuisine}
+              onChange={(e) => setSelectedCuisine(e.target.value)}
+              className="border rounded-lg px-4 py-2 bg-[var(--background)] text-[var(--foreground)]"
+            >
+              {cuisineOptions.map((cuisine) => (
+                <option key={cuisine} value={cuisine}>
+                  {cuisine}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-        <div className="mt-5 flex items-center justify-center">
-          <Link
-            to={"/allRecipes"}
-            className="mt-3 bg-[var(--accent)] text-[var(--primary)] rounded-lg hover:opacity-90 hover:bg-[#de950d49] hover:text-black transition text-center py-2 px-5 text-lg"
-          >
-            More Recipes
-          </Link>
-        </div>
+
+        {allRecipes.length === 0 ? (
+          // 👇 Empty state
+          <div className="text-center mt-12">
+            <p className="text-xl text-gray-500 p-30">
+              No recipes added yet 🍽️
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
+              {filteredRecipes.slice(0, 6).map((recipe) => (
+                <MotionWrapper key={recipe.id}>
+                  <RecipeCard recipe={recipe} />
+                </MotionWrapper>
+              ))}
+            </div>
+
+            <div className="mt-5 flex items-center justify-center">
+              <Link
+                to={"/allRecipes"}
+                className="mt-3 bg-[var(--accent)] text-[var(--primary)] rounded-lg hover:opacity-90 hover:bg-[#de950d49] hover:text-black transition text-center py-2 px-5 text-lg"
+              >
+                More Recipes
+              </Link>
+            </div>
+          </>
+        )}
       </section>
 
       {/* why choose our recipe */}
@@ -159,7 +214,7 @@ const Home = () => {
             </ul>
 
             <Link
-              to="/register"
+              to="auth/register"
               className="inline-flex items-center gap-2 px-8 py-3 bg-[var(--primary)] text-primary-foreground rounded-lg hover:bg-[var(--primary)]/80 transition-colors text-lg font-semibold"
             >
               Register Now

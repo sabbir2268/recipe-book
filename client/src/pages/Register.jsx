@@ -13,6 +13,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -21,29 +22,46 @@ export const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Collect form data
     const formData = new FormData(e.target);
     const name = formData.get("name");
     const email = formData.get("email");
     const password = formData.get("password");
     const photoURL = formData.get("photoURL");
 
+    // Validation
     if (!name || !email || !password) {
-      alert("Please fill in all required fields!");
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please fill in all required fields!",
+      });
       return;
     }
+
     if (password.length < 6) {
-      alert("Password must be at least 6 characters long");
+      Swal.fire({
+        icon: "warning",
+        title: "Weak Password",
+        text: "Password must be at least 6 characters long",
+      });
       return;
     }
 
     if (!/[A-Z]/.test(password)) {
-      alert("Password must contain at least one uppercase letter");
+      Swal.fire({
+        icon: "warning",
+        title: "Weak Password",
+        text: "Password must contain at least one uppercase letter",
+      });
       return;
     }
 
     if (!/[a-z]/.test(password)) {
-      alert("Password must contain at least one lowercase letter");
+      Swal.fire({
+        icon: "warning",
+        title: "Weak Password",
+        text: "Password must contain at least one lowercase letter",
+      });
       return;
     }
 
@@ -53,27 +71,66 @@ export const Register = () => {
         email,
         password,
       );
+
       const user = userCredential.user;
 
-      // Update displayName and photoURL in Firebase Auth
-      await updateProfile(user, { displayName: name, photoURL });
+      // Update profile
+      await updateProfile(user, {
+        displayName: name,
+        photoURL,
+      });
 
-      alert("User created successfully!");
+      await Swal.fire({
+        icon: "success",
+        title: "Account Created",
+        text: "User registered successfully!",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
       navigate("/auth/login");
     } catch (error) {
       console.error(error.code, error.message);
-      alert(error.message);
+
+      let message = "Registration failed. Try again.";
+
+      if (error.code === "auth/email-already-in-use") {
+        message = "Email already in use";
+      } else if (error.code === "auth/invalid-email") {
+        message = "Invalid email address";
+      } else if (error.code === "auth/weak-password") {
+        message = "Password is too weak";
+      }
+
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed",
+        text: message,
+      });
     }
   };
 
   const handleGoogleLogin = async () => {
     try {
       const user = await signInWithGoogle();
-      alert(`${user.email} logged in with Google`);
+
+      await Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: `${user.email} logged in with Google`,
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
       navigate("/");
     } catch (error) {
       console.error(error);
-      alert("Google Login Failed");
+
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: "Google login was unsuccessful",
+      });
     }
   };
 

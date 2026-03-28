@@ -2,8 +2,10 @@ import { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { Link, useNavigate } from "react-router-dom";
+import { useScrollToTop } from "../hooks/useScrollToTop";
 
 const ForgotPassword = () => {
+  useScrollToTop();
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
@@ -19,7 +21,7 @@ const ForgotPassword = () => {
       await sendPasswordResetEmail(auth, email);
       alert("Password reset email sent! Check your inbox.");
       setEmail(""); // clear input
-      navigate("/auth/login")
+      navigate("/auth/login");
     } catch (error) {
       console.error(error);
       alert("Failed to send reset email");
@@ -29,7 +31,6 @@ const ForgotPassword = () => {
   return (
     <div className="min-h-screen bg-[var(--background)] flex items-center justify-center px-4">
       <div className="max-w-md w-full p-6 border border-[var(--primary)]/20 rounded-xl shadow-lg bg-[var(--background)]">
-        
         {/* Title */}
         <h2 className="text-2xl font-bold mb-6 text-center text-[var(--foreground)]">
           Reset Password
@@ -37,7 +38,6 @@ const ForgotPassword = () => {
 
         {/* Form */}
         <form onSubmit={handleReset} className="space-y-4">
-          
           <input
             type="email"
             placeholder="Enter your email"

@@ -2,10 +2,13 @@ import React, { useContext, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { RecipesContext } from "../context/RecipesContext";
 import { Heart } from "lucide-react";
+import { useScrollToTop } from "../hooks/useScrollToTop";
+import Loading from "../components/Loading";
 
 const RecipeDetails = () => {
+  useScrollToTop();
   const { id } = useParams();
-  const { allRecipes } = useContext(RecipesContext);
+  const { allRecipes, loading } = useContext(RecipesContext);
 
   const recipe = allRecipes.find((r) => r._id === id);
 
@@ -16,13 +19,23 @@ const RecipeDetails = () => {
     setLiked(!liked);
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loading></Loading>
+      </div>
+    );
+  }
+
   if (!recipe) {
     return (
       <div className="flex flex-col items-center justify-center h-screen gap-4">
-        <p className="text-xl text-gray-600 font-medium">Recipe not found!</p>
+        <p className="text-xl text-[var(--foreground)] font-medium">
+          Recipe not found!
+        </p>
         <Link
           to="/allRecipes"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          className="px-4 py-2 bg-[var(--primary)] text-[var(--accent)] rounded-lg transition-transform duration-200 hover:scale-95"
         >
           Back to All Recipes
         </Link>
@@ -31,12 +44,12 @@ const RecipeDetails = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6 bg-[var(--background)]">
       {/* Title */}
       <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
 
       {/* Cuisine Type + Prep Time */}
-      <div className="flex items-center gap-6 mb-4 text-gray-700">
+      <div className="flex items-center gap-6 mb-4 text-[var(--foreground)]">
         <span>
           <strong>Cuisine:</strong> {recipe.cuisineType}
         </span>
@@ -53,19 +66,21 @@ const RecipeDetails = () => {
       />
 
       {/* Ingredients */}
-      <h2 className="text-2xl font-semibold mb-2">Ingredients:</h2>
-      <p className="text-gray-800 mb-4">{recipe.ingredients}</p>
+      <h2 className="text-2xl font-semibold mb-2 ">Ingredients:</h2>
+      <p className="text-[var(--foreground)] mb-4">{recipe.ingredients}</p>
 
       {/* Instructions */}
       <h2 className="text-2xl font-semibold mb-2">Instructions:</h2>
-      <p className="text-gray-800 mb-6">{recipe.instructions}</p>
+      <p className="text-[var(--foreground)] mb-6">{recipe.instructions}</p>
 
       <div className="flex items-center gap-5 mt-6">
         {/* Like Button */}
         <button
           onClick={toggleLike}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
-            liked ? "bg-red-500 text-white" : "bg-gray-200 text-gray-800"
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-transform duration-200 hover:scale-95 ${
+            liked
+              ? "bg-red-500 text-white"
+              : "bg-gray-200 text-gray-800 transition-transform duration-200 hover:scale-95"
           }`}
         >
           <Heart
@@ -78,7 +93,7 @@ const RecipeDetails = () => {
         {/* Back Button */}
         <Link
           to="/allRecipes"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          className="px-4 py-2 bg-[var(--primary)] text-[var(--accent)] rounded-lg transition-transform duration-200 hover:scale-95"
         >
           Back to All Recipes
         </Link>
